@@ -11,7 +11,6 @@ import urllib.request
 import requests
 from bs4 import BeautifulSoup
 
-
 ################################################################################
 # Main
 if __name__ == "__main__":
@@ -34,7 +33,11 @@ if __name__ == "__main__":
     names = []
     dates = []
 
-    uls = soup.find_all("ul")
+    # toylistings div
+    toylistings = soup.find("div", {"class": "toylistings"})
+
+    # All ul under toylistings
+    uls = toylistings.find_all("ul", recursive=False)
     for ul in uls:
         try:
             lis = ul.find_all("li", recursive=False)
