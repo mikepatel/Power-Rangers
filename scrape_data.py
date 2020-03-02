@@ -57,8 +57,11 @@ if __name__ == "__main__":
                 dates.append(date)
 
         except AttributeError as e:
+            date = li.find("span", {"class": "wavedate"})
+            if date is None:
+                dates.append(None)
             continue
 
-    print(itemnums)
-    print(names)
-    print(dates)
+    #print(itemnums)
+    #print(names)
+    #print(dates)
