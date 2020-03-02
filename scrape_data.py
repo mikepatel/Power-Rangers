@@ -62,6 +62,6 @@ if __name__ == "__main__":
                 dates.append(None)
             continue
 
-    #print(itemnums)
-    #print(names)
-    #print(dates)
+    print(itemnums)
+    print(names)
+    print(dates)
