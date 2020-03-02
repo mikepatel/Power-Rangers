@@ -8,6 +8,7 @@ import os
 import re
 import pandas
 import urllib.request
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -25,29 +26,35 @@ if __name__ == "__main__":
 
     """
 
-    soup = BeautifulSoup(html, "html.parser")
+    html = requests.get("https://www.grnrngr.com/toys/power-rangers/mighty-morphin")
+
+    soup = BeautifulSoup(html.text, "html.parser")
 
     itemnums = []
     names = []
     dates = []
 
-    uls = soup.find_all("ul", recursive=False)
+    uls = soup.find_all("ul")
     for ul in uls:
-        lis = ul.find_all("li", recursive=False)
+        try:
+            lis = ul.find_all("li", recursive=False)
 
-        for li in lis:
-            # item number
-            itemnum = li.find("span", {"class": "itemnum"}).text.strip()
-            itemnums.append(itemnum)
+            for li in lis:
+                # item number
+                itemnum = li.find("span", {"class": "itemnum"}).text.strip()
+                itemnums.append(itemnum)
 
-            # name
-            name = li.find("a").text.strip()
-            names.append(name)
+                # name
+                name = li.find("a").text.strip()
+                names.append(name)
 
-            # date
-            date = li.find("span", {"class": "wavedate"}).text.strip()
-            date = re.sub("\[|\]", "", date)
-            dates.append(date)
+                # date
+                date = li.find("span", {"class": "wavedate"}).text.strip()
+                date = re.sub("\[|\]", "", date)
+                dates.append(date)
+
+        except AttributeError as e:
+            continue
 
     print(itemnums)
     print(names)
